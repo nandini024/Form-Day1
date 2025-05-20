@@ -37,7 +37,7 @@ export default function Signup() {
     const navigate=useNavigate()
     const handRegister=(e)=>{
         console.log(e);
-        // e.preventDefault()
+        e.preventDefault()
         localStorage.setItem("signupData",JSON.stringify(signup))
         console.log(signup)
         navigate('/login')
