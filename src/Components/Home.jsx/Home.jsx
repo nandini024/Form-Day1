@@ -26,11 +26,11 @@ function Home() {
     <div style={box}>
       <h1>FORMS</h1>
 
-      <Link to="signup" style={btn}>
+      <Link to="/signup" style={btn}>
         Sign Up
       </Link>
 
-      <Link to="login" style={btn}>
+      <Link to="/login" style={btn}>
         Log In
       </Link>
     </div>
