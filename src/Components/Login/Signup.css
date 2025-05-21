@@ -1,13 +1,74 @@
-
-
-
 /* Signup.css */
-.signup-bg {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e4f1ff 0%, #f9fcff 50%, #fff 100%);
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
 }
 
-.signup-card {
-  backdrop-filter: blur(6px);
-  background: rgba(255, 255, 255, 0.85);
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-form {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.signup-form input,
+.signup-form select {
+  padding: 10px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.signup-form button {
+  background: #ff6b81;
+  color: white;
+  padding: 12px;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signup-form button:hover {
+  background: #e8436f;
+}
+
+/* Add this at the bottom of Signup.css */
+
+.redirect-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.redirect-text a {
+  color: #ff6b81;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.redirect-text a:hover {
+  text-decoration: underline;
 }

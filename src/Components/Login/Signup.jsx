@@ -1,101 +1,63 @@
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import './Signup.css';
 
+function Signup() {
+  const [signupData, setSignup] = useState({
+    name: '', email: '', password: '', location: '', role: ''
+  });
 
-// import React, { useState } from 'react'
+  const navigate = useNavigate();
 
-// function Signup() {
-//     const[name,setName]=useState("")
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    let signLocalData = JSON.parse(localStorage.getItem("signupData")) || [];
 
-//     const handleChange=(ab)=>{
-//         console.log(ab.target.value)
-//         setName(ab.target.value)
+    const existingUser = signLocalData.find(
+      (s) => s.email === signupData.email && s.password === signupData.password
+    );
 
-//     }
-//   return (
-//     <div>
-//       <input type="name" placeholder='enter your name' id='name' onChange={(e)=>handleChange(e)} />
-//       <span>
-//         name:{name}
-//       </span>
-//     </div>
-//   )
-// }
-
-// export default Signup
-
-
-
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import {useNavigate,Link} from "react-router-dom"
-
-
-
-export default function Signup() {
-    const [signup,SetSignup]=useState({
-        email:" ",password:" ",location:" ",role:" "
-    })
-    const navigate=useNavigate()
-    const handRegister=(e)=>{
-        console.log(e);
-        e.preventDefault()
-        localStorage.setItem("signupData",JSON.stringify(signup))
-        console.log(signup)
-        navigate('/login')
-
-        
-       
+    if (existingUser) {
+      alert("User already exists!");
+    } else {
+      signLocalData.push(signupData);
+      localStorage.setItem("signupData", JSON.stringify(signLocalData));
+      alert("Signup successful!");
+      navigate('/login');
     }
+  };
+
   return (
-    <Container fluid className="signup-bg d-flex align-items-center justify-content-center">
-      <Row className="w-100 px-3 px-md-0">
-        <Col md={{ span: 6, offset: 3 }}>
-          <Card className="signup-card border-0 p-4 p-sm-5 rounded-4 shadow">
-            <div className="text-center mb-4">
-              <h2 className="fw-bold mt-2">Create Your Account</h2>
-            </div>
-            <Form onSubmit={handRegister} >
-              <Form.Group controlId="formEmail" className="mb-3">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required  
-                onChange={(r)=>SetSignup({...signup,email:r.target.value})}/>
-              </Form.Group>
+    <div className="signup-container">
+      <form className="signup-form" onSubmit={handleSignUp}>
+        <h2>Create Account</h2>
 
-              <Form.Group controlId="formPassword" className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" required
-                 onChange={(r)=>SetSignup({...signup,password:r.target.value})}
-                  />
-              </Form.Group>
+        <input type="text" placeholder="Enter Name" required
+          onChange={(e) => setSignup({ ...signupData, name: e.target.value })} />
 
-              <Form.Group controlId="location" className="mb-3">
-                <Form.Label>Location</Form.Label>
-                <Form.Control type="text" placeholder="Location" required 
-                 onChange={(r)=>SetSignup({...signup,location:r.target.value})}
-                   />
-              </Form.Group>
+        <input type="email" placeholder="Enter Email" required
+          onChange={(e) => setSignup({ ...signupData, email: e.target.value })} />
 
-              <Form.Group controlId="formRole" className="mb-4">
-                <Form.Label>Role</Form.Label>
-                <Form.Select   onChange={(r)=>SetSignup({...signup,role:r.target.value})}>
-                  <option value="user" >User</option>
-                  <option value="admin">Admin</option>
-                  
-                </Form.Select>
-               
-               <Link to='/login'> <h4>Already Registred..?</h4>
-               </Link>
-              </Form.Group>
+        <input type="password" placeholder="Enter Password" required
+          onChange={(e) => setSignup({ ...signupData, password: e.target.value })} />
 
-              <Button variant="primary" type="submit" className="w-100 py-2 fw-semibold fs-5" >
-                Register
-              </Button>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
+        <input type="text" placeholder="Enter Your Location" required
+          onChange={(e) => setSignup({ ...signupData, location: e.target.value })} />
 
-      
-      
-    </Container>
+        <select required onChange={(e) => setSignup({ ...signupData, role: e.target.value })}>
+          <option value="">Choose Your Role</option>
+          <option value="seller">Seller</option>
+          <option value="buyer">Buyer</option>
+        </select>
+
+        <button type="submit">Sign Up 🚀</button>
+
+        <p className="redirect-text">
+          Already registered? <Link to="/login">Login here</Link>
+        </p>
+      </form>
+    </div>
   );
 }
+
+export default Signup;

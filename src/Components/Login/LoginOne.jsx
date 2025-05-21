@@ -1,84 +1,61 @@
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './LoginOne.css'  
 
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import {useNavigate} from "react-router-dom"
+function Login() {
+  const [loginData, setLoginData] = useState({ email: '', password: '' })
+  const [text, setText] = useState('')
+  const navigate = useNavigate()
 
+  const handleLogin = (e) => {
+    e.preventDefault()
+    const signData = JSON.parse(localStorage.getItem('signupData')) || []
+    const matchedData = signData.find(
+      (f) => f.email === loginData.email && f.password === loginData.password
+    )
 
-
-export default function LoginOne() {
-    const [login,SetLogin]=useState({
-        email:" ",password:" "
-    })
-    const [localData,setLocalData]=useState({
-        
-    })
-    const navigate=useNavigate()
-    const handLogin=(e)=>{
-        e.preventDefault()
-        console.log(login,"loginn");
-        console.log(localData,"locaall");
-        
-        
-        if(localData.email===login.email && localData.password===login.password)
-        {
-            alert("Login Sucessfull")
-             navigate('/dash')  
-
-        }
-        else {
-            alert("Invalid Credentials")
-        }
-        
-        
-
-        
-       
+    if (matchedData) {
+      localStorage.setItem('loginMatchedUser', JSON.stringify(matchedData))
+      navigate(`/${matchedData.role}dash`)
+    } else {
+      setText('Invalid credentials. Please enter valid details.')
     }
-    useEffect(()=>{
-      const signData=JSON.parse( localStorage.getItem("signupData"))
-      setLocalData(signData)
-    },[])
+  }
+
   return (
-    <Container fluid className="signup-bg d-flex align-items-center justify-content-center">
-      <Row className="w-100 px-3 px-md-0">
-        <Col md={{ span: 6, offset: 3 }}>
-          <Card className="signup-card border-0 p-4 p-sm-5 rounded-4 shadow">
-            <div className="text-center mb-4">
-              <h2 className="fw-bold mt-2">Login</h2>
-            </div>
-            <Form onSubmit={handLogin} >
-              <Form.Group controlId="formEmail" className="mb-3">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required  
-                onChange={(r)=>SetLogin({...login,email:r.target.value})}/>
-              </Form.Group>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleLogin}>
+        <h2 className="login-title">Login</h2>
 
-              <Form.Group controlId="formPassword" className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" required
-                 onChange={(r)=>SetLogin({...login,password:r.target.value})}
-                  />
-                 
-                 <Link to='/signup'>
-                  <h2>Not Yet Registered ..?</h2>
-                  </Link>
-              </Form.Group>
+        <input
+          type="email"
+          placeholder="Enter email"
+          name="email"
+          required
+          className="login-input"
+          onChange={(e) =>
+            setLoginData({ ...loginData, email: e.target.value })
+          }
+        />
+        <input
+          type="password"
+          placeholder="Enter password"
+          name="password"
+          required
+          className="login-input"
+          onChange={(e) =>
+            setLoginData({ ...loginData, password: e.target.value })
+          }
+        />
 
-             
+        {text && <p className="login-error">{text}</p>}
 
-              
-
-              <Button variant="primary" type="submit" className="w-100 py-2 fw-semibold fs-5"  >
-                Login
-              </Button>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-
-      
-      
-    </Container>
-  );
+        <button type="submit" className="login-button">
+          Login
+        </button>
+      </form>
+    </div>
+  )
 }
+
+export default Login

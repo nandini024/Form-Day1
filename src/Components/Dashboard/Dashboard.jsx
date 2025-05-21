@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from "react";
-import  "./Dashboard.css"
+import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("signupData"));
-    setData(saved ?? {});
+    const saved = JSON.parse(localStorage.getItem("loginMatchedUser")) || {};
+    setData(saved);
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("loginMatchedUser");
+    navigate("/login");
+  };
+
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-      <section className="w-full max-w-sm border rounded-lg p-6 shadow-sm bg-white">
-        <h2 className="text-xl font-semibold mb-4 text-center">My Details</h2>
-        <ul className="space-y-2">
-          
+    <div className="dashboard-wrapper">
+      {/* Logout button aligned right */}
+      <div className="logout-container">
+        <button className="logout-btn" onClick={logout}>
+          Logout
+        </button>
+      </div>
+
+      {/* Details card */}
+      <div className="dashboard-container">
+        <h2>My Details</h2>
+        <ul>
           <li>
-            <span className="font-medium">Email: </span>
-            {data.email || "-"}
+            <strong>Email:</strong> {data.email || "-"}
           </li>
           <li>
-            <span className="font-medium">Location: </span>
-            {data.location || "-"}
+            <strong>Location:</strong> {data.location || "-"}
           </li>
           <li>
-            <span className="font-medium">Role: </span>
-            {data.role || "-"}
+            <strong>Role:</strong> {data.role || "-"}
           </li>
         </ul>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import LoginOne from './Components/Login/LoginOne'
 import Home from './Components/Home.jsx/Home'
 import Dashboard from './Components/Dashboard/Dashboard'
+import BuyerDashBoard from './Components/Dashboard/BuyerDashBoard'
 
 export default function App() {
   return (
@@ -14,7 +15,8 @@ export default function App() {
           <Route path='/' element={<Home/>}/>
         <Route path='/signup' element={<Signup/>}/>
          <Route path='/login' element={<LoginOne/>}/>
-         <Route path='/dash' element={<Dashboard/>}/>
+         <Route path='/sellerdash' element={<Dashboard/>}/>
+         <Route path='/buyerdash' element={<BuyerDashBoard/>}/>
 
        
       </Routes>
